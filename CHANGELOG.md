@@ -1,6 +1,12 @@
 # Change log
 
-# 4.8.07
+# 4.8.08
+
+- [x] fix for missing psr/cache prod dependency 
+- [bug] latest 4.8.07 cause site error Call to a member function get() on false #974
+- [x] fix for Docker build not installing dev dependencies
+
+# 4.8.07 (broken in composer)
 
 - [x] fix cache and generate short cache key (#971)
 - [x] Added configuration cacheKeyFn which allows for using a custom cache key creation fn.

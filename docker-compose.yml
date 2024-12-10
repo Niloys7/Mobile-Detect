@@ -5,6 +5,8 @@ services:
       dockerfile: ./docker/Dockerfile.setup
 
   runUnitTests:
+    # Need xdebug from this image to run with coverage
+    # https://hub.docker.com/r/alcohol/php/tags
     image: alcohol/php:8.3-xdebug
     depends_on:
       setup:

@@ -19,7 +19,7 @@
  * @author  Nick Ilyin <nick.ilyin@gmail.com>
  * @author: Victor Stanciu <vic.stanciu@gmail.com> (original author)
  *
- * @version 4.8.08
+ * @version 4.8.09
  */
 
 declare(strict_types=1);
@@ -241,7 +241,7 @@ class MobileDetect
     /**
      * Stores the version number of the current release.
      */
-    protected string $VERSION = '4.8.08';
+    protected string $VERSION = '4.8.09';
 
     protected array $config = [
         // Auto-initialization on HTTP headers from $_SERVER['HTTP...']
@@ -253,7 +253,8 @@ class MobileDetect
         // @var int
         'maximumUserAgentLength' => 500,
         // Function that creates the cache key. e.g. (base64, sha1, custom fn).
-        'cacheKeyFn' => 'base64_encode',
+        // Note: used to be base64 but we went with sha1 because of fixed length.
+        'cacheKeyFn' => 'sha1',
         // Cache TTL
         // @var null|int|\DateInterval
         'cacheTtl' => 86400,

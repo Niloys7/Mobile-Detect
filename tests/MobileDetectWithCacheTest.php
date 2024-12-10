@@ -43,8 +43,8 @@ final class MobileDetectWithCacheTest extends TestCase
         $this->assertTrue($isMobile);
         $this->assertEquals(1, $detect->getCache()->count());
         $this->assertSame(
-            "mobile:Some iPhone user agent:",
-            base64_decode($detect->getCache()->getKeys()[0])
+            sha1("mobile:Some iPhone user agent:"),
+            $detect->getCache()->getKeys()[0]
         );
     }
 
@@ -98,20 +98,20 @@ final class MobileDetectWithCacheTest extends TestCase
 
         $this->assertEquals(4, $detect->getCache()->count());
         $this->assertSame(
-            "mobile:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:",
-            base64_decode($detect->getCache()->getKeys()[0])
+            sha1("mobile:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
+            $detect->getCache()->getKeys()[0]
         );
         $this->assertSame(
-            "tablet:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:",
-            base64_decode($detect->getCache()->getKeys()[1])
+            sha1("tablet:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
+            $detect->getCache()->getKeys()[1]
         );
         $this->assertSame(
-            "iPad:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:",
-            base64_decode($detect->getCache()->getKeys()[2])
+            sha1("iPad:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
+            $detect->getCache()->getKeys()[2]
         );
         $this->assertSame(
-            "iOS:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:",
-            base64_decode($detect->getCache()->getKeys()[3])
+            sha1("iOS:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
+            $detect->getCache()->getKeys()[3]
         );
     }
 

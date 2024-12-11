@@ -3,7 +3,10 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.setup
+    volumes:
+      - ./vendor:/app/vendor
 
+  # Example: docker compose -p mobile-detect up --build runUnitTests
   runUnitTests:
     # Need xdebug from this image to run with coverage
     # https://hub.docker.com/r/alcohol/php/tags

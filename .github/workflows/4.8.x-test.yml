@@ -48,7 +48,7 @@ jobs:
         run: vendor/bin/phpcs
 
       - name: Run quality rules
-        run: vendor/bin/phpstan analyse src tests
+        run: vendor/bin/phpstan analyse --debug --memory-limit=1G --level 3 src tests
 
       - name: Run tests
         run: XDEBUG_MODE=coverage && phpunit -v -c tests/phpunit.xml --coverage-text --strict-coverage --stop-on-risky

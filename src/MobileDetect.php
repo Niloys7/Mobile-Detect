@@ -1370,7 +1370,6 @@ class MobileDetect
     /**
      * Magic overloading method.
      *
-     * @method boolean is[...]()
      * @param string $name
      * @param array $arguments
      * @return bool
@@ -1711,7 +1710,7 @@ class MobileDetect
         return false;
     }
 
-    public function getCache(): Cache
+    public function getCache(): CacheInterface
     {
         return $this->cache;
     }

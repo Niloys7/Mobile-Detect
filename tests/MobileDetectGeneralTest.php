@@ -21,6 +21,7 @@ final class MobileDetectGeneralTest extends TestCase
     {
         $this->expectException(\BadMethodCallException::class);
         $md = new MobileDetect();
+        /** @phpstan-ignore-next-line */
         $md->badmethodthatdoesntexistatall();
     }
 
@@ -153,9 +154,12 @@ final class MobileDetectGeneralTest extends TestCase
         $this->assertTrue($detect->isMobile());
         $this->assertFalse($detect->isTablet());
 
+        /** @phpstan-ignore-next-line */
         $this->assertTrue($detect->isIphone());
+        /** @phpstan-ignore-next-line */
         $this->assertTrue($detect->isiphone());
         $this->assertTrue($detect->isiOS());
+        /** @phpstan-ignore-next-line */
         $this->assertTrue($detect->isios());
         $this->assertTrue($detect->is('iphone'));
         $this->assertTrue($detect->is('ios'));

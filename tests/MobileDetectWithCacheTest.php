@@ -7,6 +7,7 @@ use Detection\Cache\CacheItem;
 use Detection\Exception\MobileDetectException;
 use Detection\MobileDetect;
 use PHPUnit\Framework\TestCase;
+use Psr\SimpleCache\InvalidArgumentException;
 
 final class MobileDetectWithCacheTest extends TestCase
 {
@@ -33,6 +34,7 @@ final class MobileDetectWithCacheTest extends TestCase
 
     /**
      * @throws MobileDetectException
+     * @throws InvalidArgumentException
      */
     public function testDefaultCacheClassCreatesACacheRecord()
     {
@@ -41,32 +43,7 @@ final class MobileDetectWithCacheTest extends TestCase
         $isMobile = $detect->isMobile();
 
         $this->assertTrue($isMobile);
-        $this->assertEquals(1, $detect->getCache()->count());
-        $this->assertSame(
-            sha1("mobile:Some iPhone user agent:"),
-            $detect->getCache()->getKeys()[0]
-        );
-    }
-
-    /**
-     * @throws MobileDetectException
-     */
-    public function testDefaultCacheClassCreatesASingleCacheRecordOnMultipleIsMobileCalls()
-    {
-        $detect = new MobileDetect();
-        $detect->setUserAgent('Some iPhone user agent');
-        $isMobile = $detect->isMobile();
-        $this->assertTrue($isMobile);
-        $this->assertEquals(1, $detect->getCache()->count());
-
-        $isMobile = $detect->isMobile();
-        $this->assertTrue($isMobile);
-        $this->assertEquals(1, $detect->getCache()->count());
-
-        $detect->isMobile();
-        $detect->isMobile();
-        $detect->isMobile();
-        $this->assertEquals(1, $detect->getCache()->count());
+        $this->assertTrue($detect->getCache()->has(sha1("mobile:Some iPhone user agent:")));
     }
 
     /**
@@ -74,8 +51,9 @@ final class MobileDetectWithCacheTest extends TestCase
      */
     public function testDefaultCacheClassCreatesMultipleCacheRecordsForAllCalls()
     {
+        $userAgent = 'iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5';
         $detect = new MobileDetect();
-        $detect->setUserAgent('iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5');
+        $detect->setUserAgent($userAgent);
 
         $isMobile = $detect->isMobile();
         $isTablet = $detect->isTablet();
@@ -96,23 +74,14 @@ final class MobileDetectWithCacheTest extends TestCase
         $this->assertTrue($isiOS);
         $this->assertTrue($isiOS2);
 
-        $this->assertEquals(4, $detect->getCache()->count());
-        $this->assertSame(
-            sha1("mobile:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
-            $detect->getCache()->getKeys()[0]
-        );
-        $this->assertSame(
-            sha1("tablet:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
-            $detect->getCache()->getKeys()[1]
-        );
-        $this->assertSame(
-            sha1("iPad:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
-            $detect->getCache()->getKeys()[2]
-        );
-        $this->assertSame(
-            sha1("iOS:iPad; AppleWebKit/533.17.9 Version/5.0.2 Mobile/8C148 Safari/6533.18.5:"),
-            $detect->getCache()->getKeys()[3]
-        );
+        $this->assertInstanceOf(CacheItem::class, $detect->getCache()->get(sha1("mobile:$userAgent:")));
+        $this->assertTrue($detect->getCache()->get(sha1("mobile:$userAgent:"))->get());
+        $this->assertInstanceOf(CacheItem::class, $detect->getCache()->get(sha1("tablet:$userAgent:")));
+        $this->assertTrue($detect->getCache()->get(sha1("tablet:$userAgent:"))->get());
+        $this->assertInstanceOf(CacheItem::class, $detect->getCache()->get(sha1("iPad:$userAgent:")));
+        $this->assertTrue($detect->getCache()->get(sha1("iPad:$userAgent:"))->get());
+        $this->assertInstanceOf(CacheItem::class, $detect->getCache()->get(sha1("iOS:$userAgent:")));
+        $this->assertTrue($detect->getCache()->get(sha1("iOS:$userAgent:"))->get());
     }
 
     /**

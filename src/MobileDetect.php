@@ -19,7 +19,7 @@
  * @author  Nick Ilyin <nick.ilyin@gmail.com>
  * @author: Victor Stanciu <vic.stanciu@gmail.com> (original author)
  *
- * @version 4.8.09
+ * @version 4.8.10
  */
 
 declare(strict_types=1);
@@ -241,7 +241,7 @@ class MobileDetect
     /**
      * Stores the version number of the current release.
      */
-    protected string $VERSION = '4.8.09';
+    protected string $VERSION = '4.8.10';
 
     protected array $config = [
         // Auto-initialization on HTTP headers from $_SERVER['HTTP...']

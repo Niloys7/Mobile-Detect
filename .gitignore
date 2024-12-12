@@ -16,3 +16,4 @@ composer.lock
 /tests/phpunit.xml.bak
 /.coverage
 /.phpbench
+/index.php
